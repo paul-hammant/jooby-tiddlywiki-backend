@@ -19,6 +19,7 @@ object DAO : Closeable {
 
     private lateinit var db: DB
     private lateinit var tiddlers: HTreeMap<String, Any>
+    private lateinit var settings: HTreeMap<String, Any>
 
     fun init() {
         db = DBMaker
@@ -28,6 +29,10 @@ object DAO : Closeable {
 
         tiddlers = db
                 .hashMap("tiddlers", Serializer.STRING, Serializer.JAVA)
+                .createOrOpen()
+
+        settings = db
+                .hashMap("settings", Serializer.STRING, Serializer.JAVA)
                 .createOrOpen()
     }
 
@@ -74,5 +79,27 @@ object DAO : Closeable {
         }
 
         return result
+    }
+
+    @Throws(IllegalArgumentException::class)
+    fun saveSetting(setting: HashMap<String, Any>) {
+        val title = setting["title"]
+        if (title is String) {
+            settings[title] = setting
+        } else {
+            throw IllegalArgumentException("Setting has no 'title' field $setting")
+        }
+    }
+
+    fun loadSetting(name: String): HashMap<String, Any>? {
+        val setting = settings[name]
+        if (setting is HashMap<*, *> && setting.keys.first() is String) {
+            @Suppress("UNCHECKED_CAST")
+            return setting as HashMap<String, Any>
+        }
+        log.warn("Surprise! Your settings collection seems to be broken. Found setting which is not HashMap<String, " +
+                "Any>: {} ", setting)
+
+        return null
     }
 }

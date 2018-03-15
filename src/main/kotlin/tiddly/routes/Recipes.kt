@@ -6,6 +6,7 @@ import org.jooby.mvc.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tiddly.DAO
+import tiddly.TiddlyUtils
 import tiddly.data.Tiddler
 import tiddly.toHexString
 import java.security.MessageDigest
@@ -66,23 +67,31 @@ class Recipes {
         return Results.with(200).header("Etag", eTag)
     }
 
-    @Path("/:recipeName/tiddlers/\$:**/*")
+    @Path("/:recipeName/tiddlers/\${title:.*}")
     @Produces("application/json")
     @PUT
-    fun putStoryList(@Body body: HashMap<String, Any>): Result {
-        // TODO: Stub
-        log.trace("Received:\n{}", body)
+    fun putSetting(title: String, @Body body: HashMap<String, Any>): Result {
+        log.trace("Put title '{}':\n{}", title, body)
 
-        val md5 = MessageDigest.getInstance("MD5")
-        val digest = md5.digest(body.toString().toByteArray())
-        val eTag: String
-        eTag = String.format(
-                "\"bag/%s/%d:%s\"",
-                body["title"],
-                1,
-                digest.toHexString())
+        DAO.saveSetting(body)
 
+        val eTag: String = TiddlyUtils.eTag(
+                body["title"] as String,
+                "bag",
+                body.toString(),
+                if(body["revision"] == null) 0L else body["revision"] as Long
+        )
 
         return Results.with(200).header("Etag", eTag)
+    }
+
+    @Path("/:recipeName/tiddlers/\${title:.*}")
+    @Produces("application/json")
+    @GET
+    fun getSetting(title: String): HashMap<String, Any>? {
+        val setting = DAO.loadSetting("\$$title")
+        log.trace("Get title '{}':\n{}", title, setting)
+
+        return setting
     }
 }
