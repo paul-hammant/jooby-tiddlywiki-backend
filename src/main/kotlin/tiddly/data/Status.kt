@@ -1,7 +1,5 @@
 package tiddly.data
 
-import javax.xml.bind.annotation.XmlType
-
 /**
  * Date: 15/03/2018
  * Time: 00:51
