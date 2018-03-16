@@ -32,6 +32,14 @@ apply plugin: "application"
 apply plugin: "jooby"
 apply plugin: "org.junit.platform.gradle.plugin"
 
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
+}
+
 repositories {
     mavenLocal()
     jcenter()
@@ -59,7 +67,10 @@ dependencies {
 
     testCompile "org.jetbrains.spek:spek-api:$spekVersion"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
+    testCompile 'com.natpryce:hamkrest:1.4.2.2'
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"
+    testCompile "org.seleniumhq.selenium:selenium-java:3.11.0"
+    testCompile "org.seleniumhq.selenium.fluent:fluent-selenium:1.19"
 }
 
 /** We diverge from the default resources structure to adopt the Jooby standard: */
