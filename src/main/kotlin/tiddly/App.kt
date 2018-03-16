@@ -1,5 +1,7 @@
 package tiddly
 
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 import org.jooby.Kooby
 import org.jooby.json.Jackson
 import org.jooby.run
@@ -28,7 +30,11 @@ class App : Kooby({
     use(Bags::class.java)
 
     onStart {
-        DAO.init()
+        val conf = require(Config::class.java)
+        val dbFileName = conf.getString("mapdb.file")
+        val dbTesting = if(conf.hasPath("mapdb.testing")) conf.getBoolean("mapdb.testing") else false
+
+        DAO.init(dbFileName, dbTesting)
     }
 
     onStop {

@@ -4,9 +4,11 @@ import org.mapdb.DB
 import org.mapdb.DBMaker
 import org.mapdb.HTreeMap
 import org.mapdb.Serializer
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tiddly.data.Tiddler
 import java.io.Closeable
+import java.io.File
 
 
 /**
@@ -14,18 +16,29 @@ import java.io.Closeable
  * Time: 02:41
  */
 object DAO : Closeable {
-    val log = LoggerFactory.getLogger(DAO::class.java)
+    val log: Logger = LoggerFactory.getLogger(DAO::class.java)
 
 
     private lateinit var db: DB
     private lateinit var tiddlers: HTreeMap<String, Any>
     private lateinit var settings: HTreeMap<String, Any>
 
-    fun init() {
-        db = DBMaker
-                .fileDB("file.db")
-                .fileMmapEnable()
-                .make()
+    fun init(dbFileName: String, testing: Boolean = false) {
+        log.info("Using mapdb '{}' file ", dbFileName)
+        if (testing) {
+            db = DBMaker
+                    .fileDB(dbFileName)
+                    .fileDeleteAfterOpen()
+                    .fileDeleteAfterClose()
+                    .fileMmapEnable()
+                    .make()
+            log.info("Created mapdb {} file for testing", dbFileName)
+        } else {
+            db = DBMaker
+                    .fileDB(dbFileName)
+                    .fileMmapEnable()
+                    .make()
+        }
 
         tiddlers = db
                 .hashMap("tiddlers", Serializer.STRING, Serializer.JAVA)
