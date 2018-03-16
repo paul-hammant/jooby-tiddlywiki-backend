@@ -65,12 +65,17 @@ dependencies {
 
     compile "io.netty:netty-tcnative-boringssl-static:${dependencyManagement.importedProperties['boringssl.version']}:${osdetector.classifier}"
 
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+
     testCompile "org.jetbrains.spek:spek-api:$spekVersion"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
-    testCompile 'com.natpryce:hamkrest:1.4.2.2'
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"
+//    testCompile 'com.natpryce:hamkrest:1.4.2.2'
+
     testCompile "org.seleniumhq.selenium:selenium-java:3.11.0"
     testCompile "org.seleniumhq.selenium.fluent:fluent-selenium:1.19"
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    testCompile "io.github.bonigarcia:webdrivermanager:2.1.0"
 }
 
 /** We diverge from the default resources structure to adopt the Jooby standard: */

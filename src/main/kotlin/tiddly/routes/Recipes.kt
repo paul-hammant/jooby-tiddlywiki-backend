@@ -51,7 +51,11 @@ class Recipes {
     @PUT
     fun putTiddler(recipeName: String, tiddlerTitle: String, @Body tiddler: Tiddler): Result{
         DAO.incrementTiddlerRev(tiddler)
-        log.info("Putting tiddler {} with rev {}", tiddler.title, tiddler.revision)
+        log.info("Putting in recipe '{}' tiddler '{}' path title '{}' with revision {}",
+                recipeName,
+                tiddler.title,
+                tiddlerTitle,
+                tiddler.revision)
         DAO.saveTiddler(tiddler)
 
         val md5 = MessageDigest.getInstance("MD5")
