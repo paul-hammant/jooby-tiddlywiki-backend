@@ -70,6 +70,8 @@ dependencies {
     testCompile "org.jetbrains.spek:spek-api:$spekVersion"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"
+    testCompile "org.amshove.kluent:kluent:1.23"
+    testCompile "io.rest-assured:rest-assured:3.0.5"
 //    testCompile 'com.natpryce:hamkrest:1.4.2.2'
 
     testCompile "org.seleniumhq.selenium:selenium-java:3.11.0"

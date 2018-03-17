@@ -1,5 +1,6 @@
 package seleniumhelpers
 
+import org.openqa.selenium.WebDriver
 import org.seleniumhq.selenium.fluent.TestableString
 import kotlin.test.assertEquals
 
@@ -10,4 +11,19 @@ import kotlin.test.assertEquals
 
 fun TestableString.assertEquals(expected: String, message: String? = null) {
     assertEquals(expected, this.toString(), message)
+}
+
+fun WebDriver.closeAlertAndGetItsText(
+        acceptNextAlert: Boolean): String {
+    try {
+        val alert = this.switchTo().alert()
+        val alertText = alert.text
+        if (acceptNextAlert) {
+            alert.accept()
+        } else {
+            alert.dismiss()
+        }
+        return alertText
+    } finally {
+    }
 }
