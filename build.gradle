@@ -67,6 +67,7 @@ dependencies {
 
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 
+    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
     testCompile "org.jetbrains.spek:spek-api:$spekVersion"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"

@@ -1,6 +1,5 @@
 package tiddley
 
-import io.restassured.RestAssured.get
 import io.restassured.RestAssured.given
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
@@ -9,14 +8,14 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jooby.Status
 import tiddly.App
-import tiddly.DAO
+import tiddly.MapDbDAO
 
 /**
  * Date: 15/03/2018
  * Time: 17:28
  */
 object AppTest : Spek({
-    jooby(App(DAO())) {
+    jooby(App(MapDbDAO())) {
         describe("Paths /recipes") {
             given("queryParameter name=Victor") {
                 it("should return Hello Victor!") {

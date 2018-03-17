@@ -1,7 +1,6 @@
 package tiddly
 
 import com.typesafe.config.Config
-import org.jooby.Jooby
 import org.jooby.Kooby
 import org.jooby.json.Jackson
 import org.jooby.run
@@ -96,6 +95,6 @@ open class App constructor(val dao: DAO) : Kooby({
 
 
 fun main(args: Array<String>) {
-    run({ -> App(DAO()) }, *args)
+    run({ -> App(MapDbDAO()) }, *args)
 }
 
