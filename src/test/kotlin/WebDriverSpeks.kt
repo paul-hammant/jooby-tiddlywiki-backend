@@ -34,7 +34,7 @@ class WebDriverSpeks : Spek({
             }
 
             it("create tiddler") {
-                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS)
                 driver.findElement(By.xpath("//span[6]/button")).click()
                 driver.findElement(By.xpath("//input[@type='text']")).click()
                 // ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=0 | ]]
