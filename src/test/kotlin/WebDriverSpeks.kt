@@ -46,15 +46,13 @@ class WebDriverSpeks : Spek({
                 title.clearField()
                 title.sendKeys("My New tiddler title!")
 
-                Thread.sleep(5000)
+                driver.switchTo().frame(driver.findElement(By.cssSelector("iframe.tc-edit-texteditor")));
 
-                val textarea = fluentWebDriver.element(By.cssSelector("div.tc-reveal textarea"))
-
-                val wait2 = WebDriverWait(driver, 10)
-                wait2.until(ExpectedConditions.elementToBeClickable(textarea.webElement))
-                textarea.click()
-                        .clearField()
+                val textarea = fluentWebDriver.textareas()[0]
+                textarea.clearField()
                         .sendKeys("My New tiddler!")
+
+                driver.switchTo().defaultContent()
 
                 // ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
                 driver.findElement(By.xpath("//span[3]/button")).click()
@@ -82,7 +80,7 @@ class WebDriverSpeks : Spek({
 
 
         afterGroup {
-            driver.close()
+//            driver.close()
             println("afterGroup")
         }
 
