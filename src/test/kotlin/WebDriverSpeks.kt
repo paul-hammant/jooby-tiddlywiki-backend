@@ -6,17 +6,22 @@ import org.openqa.selenium.By
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.seleniumhq.selenium.fluent.FluentWebDriver
+import org.seleniumhq.selenium.fluent.Period.*
 import seleniumhelpers.assertEquals
 import seleniumhelpers.closeAlertAndGetItsText
 import tiddley.jooby
 import tiddly.App
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertTrue
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.WebDriverWait
+
+
 
 
 class WebDriverSpeks : Spek({
 
-    jooby(App()) {
+//    jooby(App()) {
         FirefoxDriverManager.getInstance().setup()
         val co = FirefoxOptions()
         val driver = FirefoxDriver(co)
@@ -35,12 +40,22 @@ class WebDriverSpeks : Spek({
 
             it("create tiddler") {
                 driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS)
-                driver.findElement(By.xpath("//span[6]/button")).click()
-                driver.findElement(By.xpath("//input[@type='text']")).click()
-                // ERROR: Caught exception [ERROR: Unsupported command [selectFrame | index=0 | ]]
-                driver.findElement(By.xpath("//textarea")).click()
-                driver.findElement(By.xpath("//textarea")).clear()
-                driver.findElement(By.xpath("//textarea")).sendKeys("My New tiddler!")
+                fluentWebDriver.element(By.cssSelector("button[title=\"Create a new tiddler\"]")).click()
+                val title = fluentWebDriver.element(By.cssSelector("input[type=\"text\"]"))
+                title.click()
+                title.clearField()
+                title.sendKeys("My New tiddler title!")
+
+                Thread.sleep(5000)
+
+                val textarea = fluentWebDriver.element(By.cssSelector("div.tc-reveal textarea"))
+
+                val wait2 = WebDriverWait(driver, 10)
+                wait2.until(ExpectedConditions.elementToBeClickable(textarea.webElement))
+                textarea.click()
+                        .clearField()
+                        .sendKeys("My New tiddler!")
+
                 // ERROR: Caught exception [ERROR: Unsupported command [selectFrame | relative=parent | ]]
                 driver.findElement(By.xpath("//span[3]/button")).click()
                 driver.findElement(By.xpath("//button[2]")).click()
@@ -54,10 +69,10 @@ class WebDriverSpeks : Spek({
                 driver.findElement(By.xpath("//span/span[7]/button")).click()
                 driver.findElement(By.xpath("//input[@type='text']")).click()
                 driver.findElement(By.xpath("//input[@type='text']")).clear()
-                driver.findElement(By.xpath("//input[@type='text']")).sendKeys("New Tiddler Edited")
-                driver.findElement(By.xpath("//span[3]/button")).click()
-                driver.findElement(By.xpath("//span/span[7]/button")).click()
-                driver.findElement(By.xpath("//section/div/div/div/div/span/span/button")).click()
+                fluentWebDriver.element(By.xpath("//input[@type='text']")).sendKeys("New Tiddler Edited")
+                fluentWebDriver.element(By.xpath("//span[3]/button")).click()
+                fluentWebDriver.element(By.xpath("//span/span[7]/button")).click()
+                fluentWebDriver.element(By.xpath("//section/div/div/div/div/span/span/button")).click()
 
                 assertTrue(driver.closeAlertAndGetItsText(true)
                         .matches(Regex("^Do you wish to delete the tiddler \"New Tiddler Edited\"[\\s\\S]$")))
@@ -71,7 +86,7 @@ class WebDriverSpeks : Spek({
             println("afterGroup")
         }
 
-    }
+//    }
 
 })
 
