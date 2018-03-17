@@ -9,13 +9,14 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jooby.Status
 import tiddly.App
+import tiddly.DAO
 
 /**
  * Date: 15/03/2018
  * Time: 17:28
  */
 object AppTest : Spek({
-    jooby(App()) {
+    jooby(App(DAO())) {
         describe("Paths /recipes") {
             given("queryParameter name=Victor") {
                 it("should return Hello Victor!") {

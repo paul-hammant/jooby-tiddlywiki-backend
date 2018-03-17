@@ -9,11 +9,11 @@ import org.seleniumhq.selenium.fluent.FluentBy
 import org.seleniumhq.selenium.fluent.FluentWebDriver
 import tiddley.jooby
 import tiddly.App
-
+import tiddly.DAO
 
 class WebDriverSpeks : Spek({
 
-    jooby(App()) {
+    jooby(App(DAO())) {
         FirefoxDriverManager.getInstance().setup()
         val co = FirefoxOptions()
         val driver = FirefoxDriver(co)

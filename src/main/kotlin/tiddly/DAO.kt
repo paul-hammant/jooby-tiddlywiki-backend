@@ -15,7 +15,7 @@ import java.io.File
  * Date: 15/03/2018
  * Time: 02:41
  */
-object DAO : Closeable {
+class DAO : Closeable {
     val log: Logger = LoggerFactory.getLogger(DAO::class.java)
 
 
