@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 
 class WebDriverSpeks : Spek({
 
-//    jooby(App()) {
+    jooby(App()) {
         FirefoxDriverManager.getInstance().setup()
         val co = FirefoxOptions()
         val driver = FirefoxDriver(co)
@@ -84,7 +84,7 @@ class WebDriverSpeks : Spek({
             println("afterGroup")
         }
 
-//    }
+    }
 
 })
 
