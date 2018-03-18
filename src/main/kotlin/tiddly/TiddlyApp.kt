@@ -15,7 +15,7 @@ import tiddly.routes.Recipes
  * Date: 14/03/2018
  * Time: 21:32
  */
-open class App constructor(val dao: DAO) : Kooby({
+open class TiddlyApp constructor(val dao: DAO) : Kooby({
 
     val HashMap_String_Any = HashMap<String, Any>().javaClass
 
@@ -93,6 +93,6 @@ open class App constructor(val dao: DAO) : Kooby({
 })
 
 fun main(args: Array<String>) {
-    run({ -> App(MapDbDAO()) }, *args)
+    run({ -> TiddlyApp(MapDbDAO()) }, *args)
 }
 

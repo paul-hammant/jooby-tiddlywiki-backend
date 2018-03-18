@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxOptions
 import org.seleniumhq.selenium.fluent.FluentBy
 import org.seleniumhq.selenium.fluent.FluentWebDriver
 import tiddley.jooby
-import tiddly.App
+import tiddly.TiddlyApp
 import tiddly.data.Tiddler
 import kotlin.test.assertEquals
 
@@ -59,7 +59,9 @@ class WebDriverSpeks : Spek({
         }
     }
 
-    jooby(App(dao)) {
+    val app = TiddlyApp(dao)
+
+    jooby(app) {
         FirefoxDriverManager.getInstance().setup()
         val co = FirefoxOptions()
         val driver = FirefoxDriver(co)

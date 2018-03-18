@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jooby.Status
-import tiddly.App
+import tiddly.TiddlyApp
 import tiddly.MapDbDAO
 
 /**
@@ -15,7 +15,7 @@ import tiddly.MapDbDAO
  * Time: 17:28
  */
 object AppTest : Spek({
-    jooby(App(MapDbDAO())) {
+    jooby(TiddlyApp(MapDbDAO())) {
         describe("Paths /recipes") {
             given("queryParameter name=Victor") {
                 it("should return Hello Victor!") {
