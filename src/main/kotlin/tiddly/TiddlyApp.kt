@@ -2,6 +2,7 @@ package tiddly
 
 import com.typesafe.config.Config
 import org.jooby.Kooby
+import org.jooby.Results
 import org.jooby.json.Jackson
 import org.jooby.run
 import org.jooby.rx.Rx
@@ -61,7 +62,7 @@ open class App constructor(val dao: DAO) : Kooby({
 
     path("/bags") {
         delete ("/:bagName/tiddlers/:tiddlerTitle"){ req ->
-            bags.delTiddler(req.param("tiddlerTitle").value())
+            bags.deleteTiddler(req.param("tiddlerTitle").value())
         }
     }
 
@@ -77,22 +78,19 @@ open class App constructor(val dao: DAO) : Kooby({
                     req.param("tiddlerTitle").value())
         }
         put("/:recipeName/tiddlers/:tiddlerTitle") { req ->
-            recipes.putTiddler(req.param("recipeName").value(),
+            Results.with(200).header("Etag", recipes.putTiddler(req.param("recipeName").value(),
                     req.param("tiddlerTitle").value(),
-                    req.body(Tiddler::class.java))
+                    req.body(Tiddler::class.java)))
         }
         put("/:recipeName/tiddlers/\${title:.*}") { req ->
-            recipes.putSetting(req.param("title").value(),
-                    req.body(HashMap_String_Any))
+            Results.with(200).header("Etag", recipes.putSetting(req.param("title").value(),
+                    req.body(HashMap_String_Any)))
         }
         get ("/:recipeName/tiddlers/\${title:.*}") {req ->
             recipes.getSetting(req.param("title").value())
         }
     }
-
-
 })
-
 
 fun main(args: Array<String>) {
     run({ -> App(MapDbDAO()) }, *args)

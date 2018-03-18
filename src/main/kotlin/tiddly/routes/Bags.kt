@@ -11,7 +11,7 @@ import tiddly.DAO
 class Bags constructor(val dao: DAO) {
     val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    fun delTiddler(tiddlerTitle: String) {
+    fun deleteTiddler(tiddlerTitle: String) {
         log.debug("gonna delete {}", tiddlerTitle)
         dao.deleteTiddler(tiddlerTitle)
     }
