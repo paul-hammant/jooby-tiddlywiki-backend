@@ -52,7 +52,7 @@ dependencyManagement {
     }
 }
 
-mainClassName = "tiddly.AppKt"
+mainClassName = "tiddly.TiddlyAppKt"
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
