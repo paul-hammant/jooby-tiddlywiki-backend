@@ -82,6 +82,7 @@ class WebDriverSpeks : Spek({
 
             it("should have title") {
                 fwd.title().shouldBe("My TiddlyWiki — a non-linear personal web notebook")
+                Thread.sleep(300)
                 assertEquals(".listTiddlers()", noInit(daoCalls.toString()))
             }
 
@@ -104,7 +105,7 @@ class WebDriverSpeks : Spek({
                 fwd.button(FluentBy.attribute("title","Confirm changes to this tiddler"))
                         .click()
 
-                Thread.sleep(200)
+                Thread.sleep(300)
 
                 assertEquals(".listTiddlers().saveSetting({text=, title=\$:/StoryList, fields={list=[[Draft of 'New Tiddler']]}, type=text/vnd.tiddlywiki})", noInit(daoCalls.toString()))
 

@@ -24,23 +24,23 @@ class Recipes constructor(val dao: DAO) {
     }
 
     fun getTiddlers(recipeName: String): List<Tiddler> {
-        log.trace("Serving $recipeName")
+        log.trace("getTiddlers($recipeName)")
         return dao.listTiddlers()
     }
 
     fun getTiddler(recipeName: String, tiddlerTitle: String): Tiddler? {
-        log.trace("Serving $recipeName — $tiddlerTitle")
-        return dao.loadTiddler(tiddlerTitle)
+        val loadTiddler = dao.loadTiddler(tiddlerTitle)
+        log.trace("getTiddler($recipeName, $tiddlerTitle, {})", loadTiddler.toString())
+        return loadTiddler
     }
 
 
     fun putTiddler(recipeName: String, tiddlerTitle: String, tiddler: Tiddler): String {
         dao.incrementTiddlerRev(tiddler)
-        log.info("Putting in recipe '{}' tiddler '{}' path title '{}' with revision {}",
+        log.info("putTiddler({}, {}, {})",
                 recipeName,
-                tiddler.title,
                 tiddlerTitle,
-                tiddler.revision)
+                tiddler.toString())
         dao.saveTiddler(tiddler)
 
         val md5 = MessageDigest.getInstance("MD5")
@@ -53,7 +53,7 @@ class Recipes constructor(val dao: DAO) {
     }
 
     fun putSetting(title: String, body: HashMap<String, Any>): String {
-        log.trace("Put title '{}':\n{}", title, body)
+        log.trace("putSetting({}, {})", title, body)
 
         dao.saveSetting(body)
 
@@ -67,8 +67,7 @@ class Recipes constructor(val dao: DAO) {
 
     fun getSetting(title: String): HashMap<String, Any>? {
         val setting = dao.loadSetting("\$$title")
-        log.trace("Get title '{}':\n{}", title, setting)
-
+        log.trace("getSetting({}, {})", title, setting)
         return setting
     }
 }
