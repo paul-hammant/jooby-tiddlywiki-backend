@@ -4,16 +4,17 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.openqa.selenium.By
-import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.seleniumhq.selenium.fluent.FluentBy
 import org.seleniumhq.selenium.fluent.FluentWebDriver
+import seleniumhelpers.closeAlertAndGetItsText
 import tiddley.jooby
 import tiddly.TiddlyApp
 import tiddly.data.Tiddler
-import kotlin.test.assertEquals
+import kotlin.test.*
 
+@Suppress("unused")
 class WebDriverSpeks : Spek({
 
     val daoCalls = StringBuilder()
@@ -33,7 +34,7 @@ class WebDriverSpeks : Spek({
         }
 
         override fun saveTiddler(tiddler: Tiddler) {
-            daoCalls.append(".saveTiddler($tiddler)")
+            daoCalls.append(".saveTiddler(${tiddler.title}, ${tiddler.text})")
         }
 
         override fun deleteTiddler(tiddler: String) {
@@ -47,7 +48,7 @@ class WebDriverSpeks : Spek({
 
         override fun loadSetting(name: String): HashMap<String, Any>? {
             daoCalls.append(".loadSetting($name)")
-            return HashMap<String, Any>()
+            return HashMap()
         }
 
         override fun close() {
@@ -55,7 +56,7 @@ class WebDriverSpeks : Spek({
         }
 
         override fun incrementTiddlerRev(tiddler: Tiddler) {
-            daoCalls.append(".incrementTiddlerRev($tiddler)")
+            daoCalls.append(".incrementTiddlerRev(${tiddler.title})")
         }
     }
 
@@ -67,15 +68,15 @@ class WebDriverSpeks : Spek({
         val driver = FirefoxDriver(co)
 //        val driver = ChromeDriver()
         val fwd = FluentWebDriver(driver)
-        var testNum : Int = 1
+        var testNum = 1
 
         beforeGroup {
-            assertEquals("", noInit(daoCalls.toString()))
+            assertEquals("", daoCalls.toString().noInit())
+            driver.get("http://t" + testNum++ + ".devd.io:8080/")
         }
 
         beforeEachTest {
             daoCalls.setLength(0)
-            driver.get("http://t" + testNum++ + ".devd.io:8080/")
         }
 
         describe("tiddlywiki") {
@@ -83,7 +84,7 @@ class WebDriverSpeks : Spek({
             it("should have title") {
                 fwd.title().shouldBe("My TiddlyWiki — a non-linear personal web notebook")
                 Thread.sleep(300)
-                assertEquals(".listTiddlers()", noInit(daoCalls.toString()))
+                assertEquals(".listTiddlers()", daoCalls.toString().noInit())
             }
 
             it("should be able to create a tiddler") {
@@ -94,7 +95,7 @@ class WebDriverSpeks : Spek({
                 fwd.input(FluentBy.attribute("type","text"))
                      .click().clearField().sendKeys("My New tiddler title!")
 
-                driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+                driver.switchTo().frame(driver.findElement(By.tagName("iframe")))
 
                 fwd.textarea()
                         .clearField()
@@ -105,9 +106,92 @@ class WebDriverSpeks : Spek({
                 fwd.button(FluentBy.attribute("title","Confirm changes to this tiddler"))
                         .click()
 
+
+
+                Thread.sleep(1500)
+
+                fwd.button(FluentBy.attribute("title","Close this tiddler"))
+                        .click()
+
+                assertEquals(
+                        ".saveSetting({text=, title=\$:/StoryList, fields={list=[[My New tiddler title!]]}, type=text/vnd.tiddlywiki}).incrementTiddlerRev(My New tiddler title!).saveTiddler(My New tiddler title!, My New tiddler!)",
+                        daoCalls.toString().noInit().noList())
+
+                // need to kill the "are you sure you want to close this page without saving" dialog
+
+            }
+
+
+            it("should be able to edit tiddler") {
+
+
+                fwd.button(By.xpath("contains(.,'Recent')"))
+                        .click()
+
+
+                fwd.link(FluentBy.linkText("My New tiddler title!"))
+                        .click()
+
+                fwd.button(FluentBy.attribute("title","Edit this tiddler"))
+                        .click()
+
+
+                fwd.input(FluentBy.attribute("type","text"))
+                        .click().clearField().sendKeys("Edited tiddler title")
+
+                driver.switchTo().frame(driver.findElement(By.tagName("iframe")))
+
+                fwd.textarea()
+                        .clearField()
+                        .sendKeys("Edited tiddler content")
+
+
+                driver.switchTo().defaultContent()
+
+                fwd.button(FluentBy.attribute("title","Confirm changes to this tiddler"))
+                        .click()
+
+                Thread.sleep(1500)
+
+                assertEquals(
+                        ".deleteTiddler(My New tiddler title!).saveSetting({text=, title=\$:/StoryList, fields={list=[[Edited tiddler title]]}, type=text/vnd.tiddlywiki}).incrementTiddlerRev(Edited tiddler title).saveTiddler(Edited tiddler title, Edited tiddler content)",
+                        daoCalls.toString().noInit().noList())
+
+                // need to kill the "are you sure you want to close this page without saving" dialog
+
+            }
+
+
+            it("should be able to delete tiddler") {
+
+
+                fwd.button(By.xpath("contains(.,'Recent')"))
+                        .click()
+
+
+                fwd.link(FluentBy.linkText("Edited tiddler title"))
+                        .click()
+
+                fwd.button(FluentBy.attribute("title","Edit this tiddler"))
+                        .click()
+
                 Thread.sleep(300)
 
-                assertEquals(".listTiddlers().saveSetting({text=, title=\$:/StoryList, fields={list=[[Draft of 'New Tiddler']]}, type=text/vnd.tiddlywiki})", noInit(daoCalls.toString()))
+                fwd.button(FluentBy.attribute("title","Delete this tiddler"))
+                        .click()
+
+                driver
+                        .closeAlertAndGetItsText(true)
+//                        .equals("Do you wish to delete the tiddler \"Edited tiddler title\"?")
+
+                Thread.sleep(1500)
+
+
+                daoCalls.contains(Regex(".deleteTiddler(Edited tiddler title)"))
+
+                assertEquals(
+                        ".deleteTiddler(Edited tiddler title)",
+                        daoCalls.toString().noInit().noList())
 
                 // need to kill the "are you sure you want to close this page without saving" dialog
 
@@ -142,18 +226,21 @@ class WebDriverSpeks : Spek({
 
 
         afterGroup {
-            driver.close()
+//            driver.close()
             driver.quit()
         }
 
     }
 
+
 })
 
-fun noInit(toString: String): String {
-    return toString.replace(".init(test.db, true)","")
+fun String.noInit(): String {
+    return this.replace(".init(test.db, true)","")
 }
 
-
+fun String.noList(): String {
+    return this.replace(".listTiddlers()","")
+}
 
 

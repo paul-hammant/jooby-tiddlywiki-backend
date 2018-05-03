@@ -23,6 +23,9 @@ fun WebDriver.closeAlertAndGetItsText(
         } else {
             alert.dismiss()
         }
+
+        this.switchTo().defaultContent()
+
         return alertText
     } finally {
     }
