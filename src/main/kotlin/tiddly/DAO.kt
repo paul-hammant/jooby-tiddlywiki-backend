@@ -4,22 +4,22 @@ import tiddly.data.Tiddler
 
 interface DAO {
 
-    open fun init(dbFileName: String, testing: Boolean = false)
+    fun init(dbFileName: String, testing: Boolean = false)
 
-    open fun close()
+    fun close()
 
-    open fun incrementTiddlerRev(tiddler: Tiddler)
+    fun incrementTiddlerRev(tiddler: Tiddler)
 
-    open fun saveTiddler(tiddler: Tiddler)
+    fun saveTiddler(tiddler: Tiddler)
 
-    open fun deleteTiddler(tiddler: String)
+    fun deleteTiddler(tiddler: String)
 
-    open fun loadTiddler(name: String): Tiddler?
+    fun loadTiddler(name: String): Tiddler?
 
-    open fun listTiddlers(): List<Tiddler>
+    fun listTiddlers(): List<Tiddler>
 
     @Throws(IllegalArgumentException::class)
-    open fun saveSetting(setting: HashMap<String, Any>)
+    fun saveSetting(setting: HashMap<String, Any>)
 
-    open fun loadSetting(name: String): HashMap<String, Any>?
+    fun loadSetting(name: String): HashMap<String, Any>?
 }

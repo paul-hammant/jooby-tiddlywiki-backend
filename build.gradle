@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.21'
+        kotlinVersion = '1.2.31'
         joobyVersion = '1.3.0'
         mapdbVersion = '3.0.5'
 
@@ -56,6 +56,7 @@ mainClassName = "tiddly.TiddlyAppKt"
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     compile "org.jooby:jooby-lang-kotlin"
     compile "org.jooby:jooby-netty"
     compile "org.jooby:jooby-jackson"

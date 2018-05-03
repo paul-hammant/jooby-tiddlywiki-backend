@@ -20,33 +20,33 @@ class WebDriverSpeks : Spek({
     val dao = object: TestDAO() {
 
         override fun init(dbFileName: String, testing: Boolean) {
-            daoCalls.append(".init(" + dbFileName + ", " + testing+ ")")
+            daoCalls.append(".init($dbFileName, $testing)")
         }
 
         override fun listTiddlers(): List<Tiddler> {
             daoCalls.append(".listTiddlers()")
-            return ArrayList<Tiddler>()
+            return ArrayList()
         }
 
         override fun saveSetting(setting: HashMap<String, Any>) {
-            daoCalls.append(".saveSetting(" + setting + ")")
+            daoCalls.append(".saveSetting($setting)")
         }
 
         override fun saveTiddler(tiddler: Tiddler) {
-            daoCalls.append(".saveTiddler(" + tiddler + ")")
+            daoCalls.append(".saveTiddler($tiddler)")
         }
 
         override fun deleteTiddler(tiddler: String) {
-            daoCalls.append(".deleteTiddler(" + tiddler + ")")
+            daoCalls.append(".deleteTiddler($tiddler)")
         }
 
         override fun loadTiddler(name: String): Tiddler? {
-            daoCalls.append(".loadTiddler(" + name + ")")
+            daoCalls.append(".loadTiddler($name)")
             return Tiddler("a", "b")
         }
 
         override fun loadSetting(name: String): HashMap<String, Any>? {
-            daoCalls.append(".loadSetting(" + name + ")")
+            daoCalls.append(".loadSetting($name)")
             return HashMap<String, Any>()
         }
 
@@ -55,7 +55,7 @@ class WebDriverSpeks : Spek({
         }
 
         override fun incrementTiddlerRev(tiddler: Tiddler) {
-            daoCalls.append(".incrementTiddlerRev(" + tiddler + ")")
+            daoCalls.append(".incrementTiddlerRev($tiddler)")
         }
     }
 

@@ -14,7 +14,7 @@ import java.io.Closeable
  * Date: 15/03/2018
  * Time: 02:41
  */
-public open class MapDbDAO : Closeable, DAO {
+class MapDbDAO : Closeable, DAO {
     val log: Logger = LoggerFactory.getLogger(MapDbDAO::class.java)
 
     private lateinit var db: DB
@@ -47,21 +47,21 @@ public open class MapDbDAO : Closeable, DAO {
                 .createOrOpen()
     }
 
-    open override fun close() {
+    override fun close() {
         db.close()
     }
 
     // Probably tiddlers should be stored not in personal object but in HashMap.
 
     override fun incrementTiddlerRev(tiddler: Tiddler) {
-        val prevRevision = tiddlers.get(tiddler.title)
+        val prevRevision = tiddlers[tiddler.title]
         if (prevRevision != null && prevRevision is Tiddler) {
             tiddler.revision = prevRevision.revision + 1
         }
     }
 
     override fun saveTiddler(tiddler: Tiddler) {
-        tiddlers.put(tiddler.title, tiddler)
+        tiddlers[tiddler.title] = tiddler
     }
 
     override fun deleteTiddler(tiddler: String) {
