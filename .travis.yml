@@ -6,11 +6,12 @@ jdk:
 os:
   - linux
 
-env:
-  - MOZ_HEADLESS=1
+#env:
+#  - MOZ_HEADLESS=1
 
 addons:
   firefox: latest
+  xserver: latest
 
 branches:
   only:
