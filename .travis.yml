@@ -10,7 +10,6 @@ os:
 
 addons:
   firefox: latest
-  chrome: latest
 
 branches:
   only:
