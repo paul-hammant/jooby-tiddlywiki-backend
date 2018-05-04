@@ -25,4 +25,4 @@ gradle test
 gradle run
 ```
 
-Then open your browser on `http://loclhost:8080/
+Then open your browser on `http://localhost:8080/`
