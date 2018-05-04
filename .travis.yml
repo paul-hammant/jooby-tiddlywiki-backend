@@ -13,9 +13,11 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y dbus-x11
 
+before_script:
+  - ./update-html.sh
+
 addons:
   firefox: latest
-  xserver: latest
 
 branches:
   only:
