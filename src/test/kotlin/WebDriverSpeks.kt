@@ -113,6 +113,8 @@ class WebDriverSpeks : Spek({
                 fwd.button(FluentBy.attribute("title","Close this tiddler"))
                         .click()
 
+
+
                 assertEquals(
                         ".saveSetting({text=, title=\$:/StoryList, fields={list=[[My New tiddler title!]]}, type=text/vnd.tiddlywiki}).incrementTiddlerRev(My New tiddler title!).saveTiddler(My New tiddler title!, My New tiddler!)",
                         daoCalls.toString().noInit().noList())

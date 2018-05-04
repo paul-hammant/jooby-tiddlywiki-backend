@@ -1,5 +1,6 @@
 = jooby-tiddley-backend
 
+[link="https://travis-ci.org/paul-hammant/jooby-tiddlywiki-backend"]
 image::https://api.travis-ci.org/paul-hammant/jooby-tiddlywiki-backend.svg?branch=master[]
 
 == Building
