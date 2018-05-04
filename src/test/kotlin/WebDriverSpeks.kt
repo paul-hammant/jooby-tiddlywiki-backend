@@ -193,7 +193,7 @@ class WebDriverSpeks : Spek({
                         ".deleteTiddler(Edited tiddler title)",
                         daoCalls.toString().noInit().noList())
 
-                // need to kill the "are you sure you want to close this page without saving" dialog
+
 
             }
 
@@ -226,7 +226,7 @@ class WebDriverSpeks : Spek({
 
 
         afterGroup {
-//            driver.close()
+            // kill the "are you sure you want to close this page without saving" dialog
             driver.executeScript("window.onbeforeunload = null;")
             driver.quit()
         }
