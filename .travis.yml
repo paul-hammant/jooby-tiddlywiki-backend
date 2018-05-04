@@ -1,3 +1,5 @@
+dist: trusty
+
 language: java
 
 jdk:
@@ -8,6 +10,7 @@ os:
 
 addons:
   firefox: latest
+  chrome: latest
 
 branches:
   only:
