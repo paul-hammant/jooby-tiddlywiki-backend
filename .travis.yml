@@ -1,0 +1,20 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+os:
+  - linux
+
+addons:
+  firefox: latest
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+  - $HOME/.gradle
+
+
