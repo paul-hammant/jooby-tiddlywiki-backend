@@ -8,6 +8,9 @@ jdk:
 os:
   - linux
 
+env:
+  - MOZ_HEADLESS=1
+
 addons:
   firefox: latest
 
