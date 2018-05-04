@@ -227,6 +227,7 @@ class WebDriverSpeks : Spek({
 
         afterGroup {
 //            driver.close()
+            driver.executeScript("window.onbeforeunload = null;")
             driver.quit()
         }
 
