@@ -6,8 +6,12 @@ jdk:
 os:
   - linux
 
-#env:
-#  - MOZ_HEADLESS=1
+env:
+  - MOZ_HEADLESS=1
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y dbus-x11
 
 addons:
   firefox: latest
