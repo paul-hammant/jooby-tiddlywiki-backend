@@ -5,7 +5,9 @@ image::https://api.travis-ci.org/paul-hammant/jooby-tiddlywiki-backend.svg?branc
 
 == Building
 
-Run `./update-html.sh` to download index.html file into `public/` which itself is not checked in.
+Run `./update-html.sh` to download index.html file into `public/` which itself is not checked in. This gets the main
+JavaScript app from another repo.
+
 
 Otherwise:
 
@@ -19,10 +21,12 @@ gradle build
 gradle test
 ```
 
+Tests are unit tests, followed by service tests using RestAssured, followed by functional UI tests using WebDriver.
+
 == Launching locally
 
 ```
 gradle run
 ```
 
-Then open your browser on `http://localhost:8080/`
+Then open your browser on `http://localhost:8080/` and click around
