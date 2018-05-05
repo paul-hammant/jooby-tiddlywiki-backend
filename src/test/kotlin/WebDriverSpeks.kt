@@ -181,10 +181,18 @@ class WebDriverSpeks : Spek({
                             it.click()
                         }
 
-                fwd.button(FluentBy.attribute("title", "Delete this tiddler"))
-                        .doWhenClickable(driver, 1) {
-                            it.click()
-                        }
+//                try {
+                    fwd.button(FluentBy.attribute("title", "Delete this tiddler"))
+                            .doWhenClickable(driver, 1) {
+//                                println("it.isDisplayed ${it.isDisplayed}")
+//                                println("it.isEnabled ${it.isEnabled}")
+//                                println("it.isSelected ${it.isSelected}")
+                                it.click()
+                            }
+//                } catch (e: Exception ) {
+//                    println("SSDASDASDASDS")
+//                    Thread.sleep(15000)
+//                }
 
                 driver
                         .closeAlertAndGetItsText(true)
@@ -214,7 +222,7 @@ class WebDriverSpeks : Spek({
 
 inline fun waitFor(
         timeout: Long,
-        interval: Long = 100,
+        interval: Long = 10,
         block: () -> Boolean) {
     var time = 0L
     while (time < timeout) {
