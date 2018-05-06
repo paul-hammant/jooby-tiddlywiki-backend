@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.31'
+        kotlinVersion = '1.2.41'
         joobyVersion = '1.3.0'
         mapdbVersion = '3.0.5'
 
