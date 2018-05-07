@@ -182,18 +182,10 @@ class WebDriverSpec : Spek({
                             it.click()
                         }
 
-//                try {
-                    fwd.button(FluentBy.attribute("title", "Delete this tiddler"))
-                            .doWhenClickable(driver, 1) {
-//                                println("it.isDisplayed ${it.isDisplayed}")
-//                                println("it.isEnabled ${it.isEnabled}")
-//                                println("it.isSelected ${it.isSelected}")
-                                it.click()
-                            }
-//                } catch (e: Exception ) {
-//                    println("SSDASDASDASDS")
-//                    Thread.sleep(15000)
-//                }
+                fwd.button(FluentBy.attribute("title", "Delete this tiddler"))
+                        .doWhenClickable(driver, 1) {
+                            it.click()
+                        }
 
                 driver
                         .closeAlertAndGetItsText(true)
@@ -204,7 +196,7 @@ class WebDriverSpec : Spek({
                         ".deleteTiddler(Edited tiddler title)",
                         daoCalls,
                         1500
-                        )
+                )
             }
         }
 
