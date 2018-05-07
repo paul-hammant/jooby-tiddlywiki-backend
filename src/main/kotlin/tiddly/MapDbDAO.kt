@@ -64,8 +64,10 @@ class MapDbDAO : Closeable, DAO {
         tiddlers[tiddler.title] = tiddler
     }
 
-    override fun deleteTiddler(tiddler: String) {
-        tiddlers.remove(tiddler)
+    override fun deleteTiddler(tiddler: String): Boolean {
+        tiddlers.remove(tiddler) ?: return false
+
+        return true
     }
 
     override fun loadTiddler(name: String): Tiddler? {

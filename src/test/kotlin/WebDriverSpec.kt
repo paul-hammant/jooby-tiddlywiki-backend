@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
 
 
 @Suppress("unused")
-class WebDriverSpeks : Spek({
+class WebDriverSpec : Spek({
 
     val daoCalls = StringBuilder()
     val dao = object : TestDAO() {
@@ -39,8 +39,9 @@ class WebDriverSpeks : Spek({
             daoCalls.append(".saveTiddler(${tiddler.title}, ${tiddler.text})")
         }
 
-        override fun deleteTiddler(tiddler: String) {
+        override fun deleteTiddler(tiddler: String): Boolean {
             daoCalls.append(".deleteTiddler($tiddler)")
+            return true
         }
 
         override fun loadTiddler(name: String): Tiddler? {

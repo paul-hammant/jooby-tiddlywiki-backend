@@ -12,7 +12,7 @@ interface DAO {
 
     fun saveTiddler(tiddler: Tiddler)
 
-    fun deleteTiddler(tiddler: String)
+    fun deleteTiddler(tiddler: String): Boolean
 
     fun loadTiddler(name: String): Tiddler?
 

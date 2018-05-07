@@ -44,6 +44,7 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
 }
 
 dependencyManagement {
@@ -80,6 +81,8 @@ dependencies {
     testCompile "org.seleniumhq.selenium.fluent:fluent-selenium:1.19"
     testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
     testCompile "io.github.bonigarcia:webdrivermanager:2.1.0"
+
+    testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
 }
 
 /** We diverge from the default resources structure to adopt the Jooby standard: */

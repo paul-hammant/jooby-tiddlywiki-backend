@@ -37,7 +37,7 @@ open class TiddlyApp constructor(val dao: DAO) : Kooby({
     onStart {
         val conf = require(Config::class.java)
         val dbFileName = conf.getString("mapdb.file")
-        val dbTesting = if(conf.hasPath("mapdb.testing")) conf.getBoolean("mapdb.testing") else false
+        val dbTesting = if (conf.hasPath("mapdb.testing")) conf.getBoolean("mapdb.testing") else false
         dao.init(dbFileName, dbTesting)
     }
 
@@ -61,13 +61,18 @@ open class TiddlyApp constructor(val dao: DAO) : Kooby({
     }
 
     path("/bags") {
-        delete ("/:bagName/tiddlers/:tiddlerTitle"){ req ->
-            bags.deleteTiddler(req.param("tiddlerTitle").value())
+        delete("/:bagName/tiddlers/:tiddlerTitle") { req, resp ->
+            val deleted = bags.deleteTiddler(req.param("tiddlerTitle").value())
+            if (!deleted) {
+                resp.status(404)
+            } else {
+                resp.status(200)
+            }
         }
     }
 
     path("/recipes") {
-        get("/") { req, resp ->
+        get("/") { _, resp ->
             resp.send(recipes.recipes())
         }
         get("/:recipeName/tiddlers.json") { req ->
@@ -78,15 +83,29 @@ open class TiddlyApp constructor(val dao: DAO) : Kooby({
                     req.param("tiddlerTitle").value())
         }
         put("/:recipeName/tiddlers/:tiddlerTitle") { req ->
-            Results.with(200).header("Etag", recipes.putTiddler(req.param("recipeName").value(),
-                    req.param("tiddlerTitle").value(),
-                    req.body(Tiddler::class.java)))
+            Results
+                    .with(200)
+                    .header(
+                            "Etag",
+                            recipes.putTiddler(
+                                    req.param("recipeName").value(),
+                                    req.param("tiddlerTitle").value(),
+                                    req.body(Tiddler::class.java)
+                            )
+                    )
         }
         put("/:recipeName/tiddlers/\${title:.*}") { req ->
-            Results.with(200).header("Etag", recipes.putSetting(req.param("title").value(),
-                    req.body(HashMap_String_Any)))
+            Results
+                    .with(200)
+                    .header(
+                            "Etag",
+                            recipes.putSetting(
+                                    req.param("title").value(),
+                                    req.body(HashMap_String_Any)
+                            )
+                    )
         }
-        get ("/:recipeName/tiddlers/\${title:.*}") {req ->
+        get("/:recipeName/tiddlers/\${title:.*}") { req ->
             recipes.getSetting(req.param("title").value())
         }
     }

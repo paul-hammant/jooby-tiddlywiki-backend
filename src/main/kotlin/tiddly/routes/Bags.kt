@@ -8,11 +8,11 @@ import tiddly.DAO
  * Date: 15/03/2018
  * Time: 02:12
  */
-class Bags constructor(val dao: DAO) {
+class Bags(private val dao: DAO) {
     val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
-    fun deleteTiddler(tiddlerTitle: String) {
+    fun deleteTiddler(tiddlerTitle: String): Boolean {
         log.debug("gonna delete {}", tiddlerTitle)
-        dao.deleteTiddler(tiddlerTitle)
+        return dao.deleteTiddler(tiddlerTitle)
     }
 }
