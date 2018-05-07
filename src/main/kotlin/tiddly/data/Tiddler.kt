@@ -17,13 +17,13 @@ data class Tiddler(
 ) : Serializable {
     //    The name of the tiddler. Required.
     //    A string representing when this tiddler was created.
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmssSSS")
+    @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmssSSS")
     var created: Date = Date()
 
     /**
      * A string representing when this tiddler was last changed. Defaults to now.
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmssSSS")
+    @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmssSSS")
     var modified: Date = Date()
 
     /**
@@ -67,5 +67,5 @@ data class Tiddler(
 //    val permissions = ArrayList<String>().apply {
 //        add("read")
 //    }
-    val permissions:String? = null
+    val permissions: String? = null
 }
