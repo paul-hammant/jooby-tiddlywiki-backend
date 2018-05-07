@@ -1,3 +1,7 @@
+package beta
+
+import MockDAO
+import TestDAO
 import io.restassured.RestAssured
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.hasItems
@@ -6,7 +10,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.jooby.Status
-import tiddley.jooby
+import jooby
 import tiddly.TiddlyApp
 import tiddly.data.Tiddler
 import kotlin.test.assertEquals
@@ -22,10 +26,13 @@ class RestAPISpec : Spek({
 
     val app = TiddlyApp(mockDAO)
 
-
-
     jooby(app) {
         describe("jooby REST API") {
+
+            beforeEachTest {
+                mockDAO.setTestDAO(TestDAO())
+            }
+
             on("GET /") {
                 it("should return html document") {
                     RestAssured

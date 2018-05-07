@@ -1,4 +1,4 @@
-package seleniumhelpers
+package util
 
 import org.openqa.selenium.ElementClickInterceptedException
 import org.openqa.selenium.WebDriver

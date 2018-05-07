@@ -1,3 +1,6 @@
+package gamma
+
+import TestDAO
 import io.github.bonigarcia.wdm.FirefoxDriverManager
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
@@ -7,9 +10,9 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.seleniumhq.selenium.fluent.FluentBy
 import org.seleniumhq.selenium.fluent.FluentWebDriver
-import seleniumhelpers.closeAlertAndGetItsText
-import seleniumhelpers.doWhenClickable
-import tiddley.jooby
+import util.closeAlertAndGetItsText
+import util.doWhenClickable
+import jooby
 import tiddly.TiddlyApp
 import tiddly.data.Tiddler
 import kotlin.test.assertEquals
