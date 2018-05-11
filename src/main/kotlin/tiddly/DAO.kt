@@ -2,6 +2,9 @@ package tiddly
 
 import tiddly.data.Tiddler
 
+/**
+ * @author Klaus Schwartz aka tntclaus
+ */
 interface DAO {
 
     fun init(dbFileName: String, testing: Boolean = false)

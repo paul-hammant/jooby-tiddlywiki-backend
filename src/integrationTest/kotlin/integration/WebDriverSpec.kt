@@ -1,8 +1,7 @@
-package gamma
+package integration
 
-import TestDAO
+import tiddly.DummyDAO
 import io.github.bonigarcia.wdm.FirefoxDriverManager
-import jooby
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -15,6 +14,7 @@ import tiddly.TiddlyApp
 import tiddly.data.Tiddler
 import util.closeAlertAndGetItsText
 import util.doWhenClickable
+import util.jooby
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 class WebDriverSpec : Spek({
 
     val daoCalls = StringBuilder()
-    val dao = object : TestDAO() {
+    val dao = object : DummyDAO() {
 
         override fun init(dbFileName: String, testing: Boolean) {
             daoCalls.append(".init($dbFileName, $testing)")

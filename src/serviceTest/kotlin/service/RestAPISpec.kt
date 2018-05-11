@@ -1,7 +1,6 @@
-package beta
+package service
 
-import MockDAO
-import TestDAO
+import tiddly.DummyDAO
 import io.restassured.RestAssured
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.hasItems
@@ -10,9 +9,10 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.jooby.Status
-import jooby
 import tiddly.TiddlyApp
 import tiddly.data.Tiddler
+import util.MockDAO
+import util.jooby
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -30,7 +30,7 @@ class RestAPISpec : Spek({
         describe("jooby REST API") {
 
             beforeEachTest {
-                mockDAO.setTestDAO(TestDAO())
+                mockDAO.setTestDAO(DummyDAO())
             }
 
             on("GET /") {
@@ -80,7 +80,7 @@ class RestAPISpec : Spek({
             }
 
             on("DELETE /bags") {
-                mockDAO.setTestDAO(object : TestDAO() {
+                mockDAO.setTestDAO(object : DummyDAO() {
                     override fun deleteTiddler(tiddler: String): Boolean {
                         return tiddler == "Existing Tiddler"
                     }
@@ -130,7 +130,7 @@ class RestAPISpec : Spek({
             on("GET /recipes/:recipe/tiddlers.json") {
 
                 it("should return a list of tiddlers in a recipe") {
-                    mockDAO.setTestDAO(object : TestDAO() {
+                    mockDAO.setTestDAO(object : DummyDAO() {
                         override fun listTiddlers(): List<Tiddler> {
                             return ArrayList<Tiddler>().apply {
                                 add(Tiddler("Tiddler1").apply { type = "text/vnd.tiddlywiki" })
@@ -154,7 +154,7 @@ class RestAPISpec : Spek({
             on("GET /recipes/:recipe/tiddlers/:tiddler") {
 
                 it("should have title, text, creator and type") {
-                    mockDAO.setTestDAO(object : TestDAO() {
+                    mockDAO.setTestDAO(object : DummyDAO() {
                         override fun loadTiddler(name: String): Tiddler? {
                             if (name == "Tiddler1")
                                 return Tiddler("Tiddler1").apply { type = "text/vnd.tiddlywiki" }
@@ -177,7 +177,7 @@ class RestAPISpec : Spek({
 
             on("PUT /recipes/:recipe/tiddlers/:tiddler") {
                 var storedTiddler: Tiddler? = null
-                mockDAO.setTestDAO(object : TestDAO() {
+                mockDAO.setTestDAO(object : DummyDAO() {
                     override fun saveTiddler(tiddler: Tiddler) {
                         storedTiddler = tiddler
                     }
@@ -206,7 +206,7 @@ class RestAPISpec : Spek({
             on("PUT \$:/StoryList setting") {
                 var storedSetting: HashMap<String, Any>? = null
 
-                mockDAO.setTestDAO(object : TestDAO() {
+                mockDAO.setTestDAO(object : DummyDAO() {
                     override fun saveSetting(setting: HashMap<String, Any>) {
                         storedSetting = setting
                     }
