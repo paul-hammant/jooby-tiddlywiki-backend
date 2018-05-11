@@ -20,8 +20,13 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.adarshr.test-logger' version '1.2.0'
+}
+
 group 'wiki.tiddly'
 version '1.0-SNAPSHOT'
+
 
 apply plugin: "io.spring.dependency-management"
 apply plugin: "com.google.osdetector"
@@ -42,6 +47,7 @@ dependencyManagement {
         mavenBom "org.jooby:jooby-bom:$joobyVersion"
     }
 }
+
 
 
 sourceSets {
