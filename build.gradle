@@ -87,32 +87,19 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-def GREEN = "\033[0;32m"
-def RED = "\033[0;31m"
-def RESET = "\033[0m"
-
-def logSuccess = {String tag, String text -> logger.lifecycle "[$GREEN$tag$RESET] $text" }
-def logError = {String tag, String text -> logger.lifecycle "[$RED$tag$RESET] $text" }
-
-test.afterTest { TestDescriptor td, TestResult tr ->
-    if (tr.resultType == TestResult.ResultType.FAILURE) {
-        logError ("FAILED", "$td")
-    } else {
-        logSuccess ("PASSED", "$td")
-    }
-}
-
-test.afterSuite { TestDescriptor td, TestResult tr ->
-    if (tr.resultType == TestResult.ResultType.FAILURE) {
-        logError ("FAILED", "$td")
-    } else {
-        logSuccess("PASSED", "$td")
-    }
-}
-
 test {
     failFast = true
+
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+
     useJUnitPlatform {
-        includeEngines 'spek'
+    }
+
+    onOutput { descriptor, event ->
+        if (event.destination == TestOutputEvent.Destination.StdErr) {
+            logger.error(event.message)
+        }
     }
 }
