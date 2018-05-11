@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.on
 import tiddly.data.Tiddler
 import kotlin.reflect.full.*
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -74,36 +74,33 @@ class TiddlerSpec : Spek({
         }
     }
 
-    describe("tiddler object date fields JSON serialisation") {
-        on("serialisation of created field ") {
+    describe("tiddler object serialisation of created field") {
+        it("should have JsonFormat annotation") {
             val property = tiddlerClassMembers.find { it.name == "created" }!!
             val jsonFormat = property.getter.findAnnotation<JsonFormat>()
-
-            it("should have JsonFormat annotation") {
-                assertNotNull(jsonFormat)
-            }
-
-            it("should have date format yyyyMMddHHmmssSSS") {
-                jsonFormat as JsonFormat
-                assertTrue { jsonFormat.shape == JsonFormat.Shape.STRING }
-                assertTrue { jsonFormat.pattern == "yyyyMMddHHmmssSSS" }
-            }
+            assertNotNull(jsonFormat)
         }
 
-        on("serialisation of modified field ") {
+        it("should have date format yyyyMMddHHmmssSSS") {
+            val property = tiddlerClassMembers.find { it.name == "created" }!!
+            val jsonFormat = property.getter.findAnnotation<JsonFormat>()!!
+            assertEquals(JsonFormat.Shape.STRING, jsonFormat.shape)
+            assertEquals("yyyyMMddHHmmssSSS", jsonFormat.pattern)
+        }
+    }
+
+    describe("tiddler object serialisation of modified field ") {
+        it("should have JsonFormat annotation") {
             val property = tiddlerClassMembers.find { it.name == "modified" }!!
             val jsonFormat = property.getter.findAnnotation<JsonFormat>()
+            assertNotNull(jsonFormat)
+        }
 
-            it("should have JsonFormat annotation") {
-                assertTrue { jsonFormat is JsonFormat }
-            }
-
-
-            it("should have date format yyyyMMddHHmmssSSS") {
-                jsonFormat as JsonFormat
-                assertTrue { jsonFormat.shape == JsonFormat.Shape.STRING }
-                assertTrue { jsonFormat.pattern == "yyyyMMddHHmmssSSS" }
-            }
+        it("should have date format yyyyMMddHHmmssSSS") {
+            val property = tiddlerClassMembers.find { it.name == "modified" }!!
+            val jsonFormat = property.getter.findAnnotation<JsonFormat>()!!
+            assertEquals(JsonFormat.Shape.STRING, jsonFormat.shape)
+            assertEquals("yyyyMMddHHmmssSSS", jsonFormat.pattern)
         }
     }
 })
