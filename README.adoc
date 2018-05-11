@@ -12,21 +12,40 @@ JavaScript app from another repo.
 Otherwise:
 
 ```
-gradle build
+./gradlew build
 ```
 
 == Running tests
 
+Tests are unit tests, followed by service tests using RestAssured, followed by functional/integration UI tests using
+WebDriver.
+
+Run all tests:
 ```
-gradle test
+./gradlew check
 ```
 
-Tests are unit tests, followed by service tests using RestAssured, followed by functional UI tests using WebDriver.
+Run unit tests:
+```
+./gradlew test
+```
+
+Run service tests:
+```
+./gradlew serviceTest
+```
+
+Run integration tests:
+```
+./gradlew integrationTest
+```
+
+
 
 == Launching locally
 
 ```
-gradle run
+./gradlew run
 ```
 
 Then open your browser on `http://localhost:8080/` and click around
