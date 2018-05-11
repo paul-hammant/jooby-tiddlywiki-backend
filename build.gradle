@@ -113,16 +113,10 @@ compileTestKotlin {
 // we place unit tests in test source set
 test {
     testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
+        events "PASSED", "FAILED", "SKIPPED", "standardError"
     }
 
     useJUnitPlatform {
-    }
-
-    onOutput { descriptor, event ->
-        if (event.destination == TestOutputEvent.Destination.StdErr) {
-            logger.error(event.message)
-        }
     }
 }
 
@@ -138,7 +132,7 @@ serviceTest {
 
     // Enable some logging
     testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
+        events "PASSED", "FAILED", "SKIPPED", "standardError"
     }
 
     // Enable JUnit5 tests
