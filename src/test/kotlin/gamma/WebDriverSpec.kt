@@ -2,6 +2,7 @@ package gamma
 
 import TestDAO
 import io.github.bonigarcia.wdm.FirefoxDriverManager
+import jooby
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -10,16 +11,14 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.seleniumhq.selenium.fluent.FluentBy
 import org.seleniumhq.selenium.fluent.FluentWebDriver
-import util.closeAlertAndGetItsText
-import util.doWhenClickable
-import jooby
 import tiddly.TiddlyApp
 import tiddly.data.Tiddler
+import util.closeAlertAndGetItsText
+import util.doWhenClickable
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 
-@Suppress("unused")
 class WebDriverSpec : Spek({
 
     val daoCalls = StringBuilder()
@@ -69,6 +68,7 @@ class WebDriverSpec : Spek({
     val app = TiddlyApp(dao)
 
     jooby(app) {
+        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE,"/dev/null")
         val co = FirefoxOptions()
         lateinit var driver: FirefoxDriver
         lateinit var fwd: FluentWebDriver
@@ -118,7 +118,6 @@ class WebDriverSpec : Spek({
 
                 fwd.button(FluentBy.attribute("title", "Confirm changes to this tiddler"))
                         .click()
-
 
                 fwd
                         .button(FluentBy.attribute("title", "Close this tiddler"))
