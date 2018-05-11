@@ -82,7 +82,6 @@ dependencies {
     testCompile "com.nhaarman:mockito-kotlin:1.5.0"
     testCompile "org.jetbrains.spek:spek-api:$spekVersion"
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
-
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"
 
 
@@ -111,9 +110,8 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+// we place unit tests in test source set
 test {
-    failFast = true
-
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
     }
@@ -129,18 +127,21 @@ test {
 }
 
 task serviceTest(type: Test) {
-    // Runs tests from src/integrationTest
+    // Runs tests from src/serviceTest
     testClassesDirs = sourceSets.serviceTest.output.classesDirs
     classpath = sourceSets.serviceTest.runtimeClasspath
 }
 
 serviceTest {
-    failFast = true
+    // Uncomment this if you need to skip tests from the set after first failure
+    //failFast = true
 
+    // Enable some logging
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
     }
 
+    // Enable JUnit5 tests
     useJUnitPlatform {
     }
 }
@@ -152,8 +153,6 @@ task integrationTest(type: Test) {
 }
 
 integrationTest {
-    failFast = true
-
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
     }
@@ -162,9 +161,12 @@ integrationTest {
     }
 }
 
+// Make service tests run during gradle check
 check.dependsOn serviceTest
 check.dependsOn integrationTest
 
+// Make service tests run after unit tests
 serviceTest.mustRunAfter test
+// Make integration tests run after service tests
 integrationTest.mustRunAfter serviceTest
 
