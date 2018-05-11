@@ -111,18 +111,6 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-test.afterSuite { TestDescriptor td, TestResult tr ->
-    if (td.parent)
-        return
-
-    logger.lifecycle("=================================")
-    logger.lifecycle("Tests count:\t\t{}", tr.testCount)
-    logger.lifecycle("Succeeded:\t\t{}", tr.successfulTestCount)
-    logger.lifecycle("Skipped:\t\t{}", tr.skippedTestCount)
-    logger.lifecycle("Failed:\t\t\t{}", tr.failedTestCount)
-    logger.lifecycle("=================================")
-}
-
 test {
     failFast = true
 
@@ -176,7 +164,6 @@ integrationTest {
 
 check.dependsOn serviceTest
 check.dependsOn integrationTest
-//integrationTest.dependsOn serviceTest
 
 serviceTest.mustRunAfter test
 integrationTest.mustRunAfter serviceTest
