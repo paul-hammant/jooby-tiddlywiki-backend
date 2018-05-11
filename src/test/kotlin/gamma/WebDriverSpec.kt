@@ -69,14 +69,17 @@ class WebDriverSpec : Spek({
     val app = TiddlyApp(dao)
 
     jooby(app) {
-        FirefoxDriverManager.getInstance().setup()
         val co = FirefoxOptions()
-        val driver = FirefoxDriver(co)
-//        val driver = ChromeDriver()
-        val fwd = FluentWebDriver(driver)
+        lateinit var driver: FirefoxDriver
+        lateinit var fwd: FluentWebDriver
         var testNum = 1
 
         beforeGroup {
+            FirefoxDriverManager.getInstance().setup()
+//            driver = ChromeDriver()
+            driver = FirefoxDriver(co)
+            fwd = FluentWebDriver(driver)
+
             assertEquals("", daoCalls.toString().noInit())
             driver.get("http://t" + testNum++ + ".devd.io:8080/")
         }
