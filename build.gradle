@@ -74,7 +74,10 @@ mainClassName = "tiddly.TiddlyAppKt"
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    compile "org.jooby:jooby-lang-kotlin"
+    compile ("org.jooby:jooby-lang-kotlin"){
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+    }
     compile "org.jooby:jooby-netty"
     compile "org.jooby:jooby-jackson"
     compile "org.jooby:jooby-rxjava"
@@ -85,13 +88,28 @@ dependencies {
 
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
-    testCompile "org.jetbrains.spek:spek-api:$spekVersion"
-    testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
+    testCompile ("com.nhaarman:mockito-kotlin:1.5.0"){
+	exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+	exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+    }
+    testCompile ("org.jetbrains.spek:spek-api:$spekVersion"){
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+    }
+
+    testRuntime ("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"){
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+    }
+
     testCompile "org.junit.platform:junit-platform-launcher:$junitPlatformVersion"
 
 
-    testCompile "org.amshove.kluent:kluent:1.23"
+    testCompile ("org.amshove.kluent:kluent:1.23"){
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre8'
+    }
+
     testCompile "io.rest-assured:rest-assured:3.0.5"
     testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
 
