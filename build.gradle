@@ -130,6 +130,7 @@ task serviceTest(type: Test) {
     // Runs tests from src/serviceTest
     testClassesDirs = sourceSets.serviceTest.output.classesDirs
     classpath = sourceSets.serviceTest.runtimeClasspath
+    //outputs.upToDateWhen { false }
 }
 
 serviceTest {
@@ -144,12 +145,15 @@ serviceTest {
     // Enable JUnit5 tests
     useJUnitPlatform {
     }
+
+    //dependsOn unitTest
 }
 
 task integrationTest(type: Test) {
     // Runs tests from src/integrationTest
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
+    //outputs.upToDateWhen { false }
 }
 
 integrationTest {
@@ -159,6 +163,7 @@ integrationTest {
 
     useJUnitPlatform {
     }
+    dependsOn serviceTest
 }
 
 // Make service tests run during gradle check
