@@ -164,7 +164,7 @@ serviceTest {
     useJUnitPlatform {
     }
 
-    //dependsOn unitTest
+    dependsOn test
 }
 
 task functionalTest(type: Test) {
