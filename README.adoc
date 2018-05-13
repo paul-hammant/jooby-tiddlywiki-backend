@@ -30,17 +30,15 @@ Run unit tests:
 ./gradlew test
 ```
 
-Run service tests:
+Run service (RestAssured, no UI) tests:
 ```
 ./gradlew serviceTest
 ```
 
-Run integration tests:
+Run functional (Selenium of UI including JavaScript implicitly) tests:
 ```
-./gradlew integrationTest
+./gradlew functionalTest
 ```
-
-
 
 == Launching locally
 

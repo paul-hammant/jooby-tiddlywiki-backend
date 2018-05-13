@@ -51,7 +51,7 @@ dependencyManagement {
 
 
 sourceSets {
-    integrationTest {
+    functionalTest {
         compileClasspath += main.output
         runtimeClasspath += main.output
     }
@@ -62,8 +62,8 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
+    functionalTestCompile.extendsFrom testCompile
+    functionalTestRuntime.extendsFrom testRuntime
 
     serviceTestCompile.extendsFrom testCompile
     serviceTestRuntime.extendsFrom testRuntime
@@ -115,9 +115,9 @@ dependencies {
 
 //    testCompile 'com.natpryce:hamkrest:1.4.2.2'
 
-    integrationTestCompile "org.seleniumhq.selenium:selenium-java:3.11.0"
-    integrationTestCompile "org.seleniumhq.selenium.fluent:fluent-selenium:1.19"
-    integrationTestCompile "io.github.bonigarcia:webdrivermanager:2.1.0"
+    functionalTestCompile "org.seleniumhq.selenium:selenium-java:3.11.0"
+    functionalTestCompile "org.seleniumhq.selenium.fluent:fluent-selenium:1.19"
+    functionalTestCompile "io.github.bonigarcia:webdrivermanager:2.1.0"
 
     testCompile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
 }
@@ -167,14 +167,14 @@ serviceTest {
     //dependsOn unitTest
 }
 
-task integrationTest(type: Test) {
-    // Runs tests from src/integrationTest
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
+task functionalTest(type: Test) {
+    // Runs tests from src/functionalTest
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
     //outputs.upToDateWhen { false }
 }
 
-integrationTest {
+functionalTest {
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
     }
@@ -186,10 +186,10 @@ integrationTest {
 
 // Make service tests run during gradle check
 check.dependsOn serviceTest
-check.dependsOn integrationTest
+check.dependsOn functionalTest
 
 // Make service tests run after unit tests
 serviceTest.mustRunAfter test
 // Make integration tests run after service tests
-integrationTest.mustRunAfter serviceTest
+functionalTest.mustRunAfter serviceTest
 
